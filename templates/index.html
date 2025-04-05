@@ -25,41 +25,48 @@
     body {
       background: linear-gradient(to right, #e0f7fa, #b2ebf2);
       min-height: 100vh;
-      padding: 30px 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
     .container-custom {
       background: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      max-width: 1200px;
-      margin: 0 auto;
+      padding: 50px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      max-width: 1300px;
+      width: 100%;
+      min-height: 90vh;
     }
 
     h2 {
       text-align: center;
       color: #00796b;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      font-size: 2rem;
     }
 
     form {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 25px;
     }
 
     label {
-      margin-bottom: 5px;
+      margin-bottom: 8px;
       font-weight: 500;
       color: #333;
+      font-size: 1.1rem;
     }
 
     input, select {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
+      font-size: 1rem;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 10px;
       transition: border-color 0.3s ease;
     }
 
@@ -70,12 +77,12 @@
 
     button {
       grid-column: span 2;
-      padding: 12px;
+      padding: 14px;
       background: #00796b;
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 10px;
+      font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.3s ease;
@@ -88,31 +95,32 @@
     .result {
       grid-column: span 2;
       text-align: center;
-      margin-top: 20px;
-      font-size: 18px;
+      margin-top: 25px;
+      font-size: 1.3rem;
       font-weight: 600;
       color: #004d40;
     }
 
     .card-title {
-      font-size: 20px;
+      font-size: 1.4rem;
       font-weight: 600;
     }
 
     .card-body h6 {
-      font-size: 16px;
+      font-size: 1.1rem;
     }
 
     .card-body p {
-      font-size: 14px;
+      font-size: 1rem;
     }
 
     @media (max-width: 768px) {
       form {
         grid-template-columns: 1fr;
       }
-      .col-lg-8, .col-lg-4 {
-        width: 100%;
+
+      .container-custom {
+        padding: 30px 20px;
       }
     }
   </style>
@@ -127,12 +135,11 @@
       <form method="post">
         <div>
           <label for="Crop">Crop</label>
-          <select name="Crop" id="Crop">
+          <select name="Crop" id="Crop" required>
               {% for crop in ['Arecanut', 'Arhar/Tur', 'Banana', 'Barley', 'Bajra', 'Black pepper', 'Cardamom', 'Cashewnut', 'Castor seed', 'Coconut ', 'Coriander', 'Cotton(lint)', 'Cowpea(Lobia)', 'Dry chillies', 'Garlic', 'Ginger', 'Gram', 'Groundnut', 'Guar seed', 'Horse-gram', 'Jowar', 'Jute', 'Khesari', 'Linseed', 'Maize', 'Masoor', 'Mesta', 'Moong(Green Gram)', 'Moth', 'Niger seed', 'Oilseeds total', 'Onion', 'Other Cereals', 'Other Kharif pulses', 'Other Rabi pulses', 'Other Summer Pulses', 'Peas & beans (Pulses)', 'Potato', 'Rapeseed &Mustard', 'Ragi', 'Rice', 'Safflower', 'Sannhamp', 'Sesamum', 'Small millets', 'Soyabean', 'Sugarcane', 'Sunflower', 'Sweet potato', 'Tapioca', 'Tobacco', 'Turmeric', 'Urad', 'Wheat', 'other oilseeds'] %}
                 <option>{{ crop }}</option>
               {% endfor %}
             </select>
-
         </div>
 
         <div>
@@ -142,7 +149,7 @@
 
         <div>
           <label for="Season">Season</label>
-          <select name="Season" id="Season">
+          <select name="Season" id="Season" required>
             <option>Kharif</option>
             <option>Rabi</option>
             <option>Summer</option>
@@ -151,12 +158,11 @@
 
         <div>
           <label for="State">State</label>
-          <select name="State" id="State">
+          <select name="State" id="State" required>
               {% for state in ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'] %}
                 <option>{{ state }}</option>
               {% endfor %}
             </select>
-
         </div>
 
         <div>
@@ -183,12 +189,11 @@
 
         {% if prediction is not none %}
         <div class="result">
-            🌱 <strong>Predicted Yield:</strong> {{ '%.2f' % prediction }} metric tons/hectare
-            <p style="margin-top: 10px; font-size: 14px; color: #555;">
-                This value represents the estimated crop yield based on your inputs. Please note that actual results may vary due to real-world farming and environmental conditions.
-            </p>
+          🌱 <strong>Predicted Yield:</strong> {{ '%.2f' % prediction }} metric tons/hectare
+          <p style="margin-top: 10px; font-size: 1rem; color: #555;">
+            This value is an estimate based on your inputs. Real-world outcomes may vary based on field and weather conditions.
+          </p>
         </div>
-
         {% endif %}
       </form>
     </div>
@@ -204,8 +209,7 @@
         </div>
         <div class="card-body">
           <p class="card-text mb-4">
-            Crop Production Prediction Tool is an agricultural prediction tool that uses machine learning to
-            estimate crop yields based on various inputs related to farming conditions.
+            Crop Production Prediction Tool uses machine learning to estimate crop yields based on environmental and input factors.
           </p>
 
           <div class="d-flex mb-3">
@@ -214,9 +218,7 @@
             </div>
             <div>
               <h6 class="fw-medium">Accurate Predictions</h6>
-              <p class="text-muted small">
-                Our model is trained on vast crop datasets to ensure accuracy in yield estimation.
-              </p>
+              <p class="text-muted small">Trained on real-world datasets for reliable estimates.</p>
             </div>
           </div>
 
@@ -225,10 +227,8 @@
               <i class="fas fa-cloud-sun-rain fa-lg"></i>
             </div>
             <div>
-              <h6 class="fw-medium">Seasonal Analysis</h6>
-              <p class="text-muted small">
-                Analyze how crop seasons affect your output based on rainfall and temperature patterns.
-              </p>
+              <h6 class="fw-medium">Seasonal Trends</h6>
+              <p class="text-muted small">Understand how weather and seasons affect yield.</p>
             </div>
           </div>
 
@@ -238,9 +238,7 @@
             </div>
             <div>
               <h6 class="fw-medium">Optimized Inputs</h6>
-              <p class="text-muted small">
-                Improve output with insights from fertilizer, pesticide, and rainfall inputs.
-              </p>
+              <p class="text-muted small">Balance fertilizer, pesticide and rainfall to maximize results.</p>
             </div>
           </div>
         </div>
